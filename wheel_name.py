@@ -44,20 +44,6 @@ def load_index():
     return {}
 
 
-def load_list(filename):
-    '''Loads and returns the list from the selected filename'''
-
-    file_path = os.path.join(LISTS_DIR, filename)
-    
-    if not os.path.exists(file_path):
-        print("File not found!")
-        return None
-    
-    else:
-        with open(file_path, "r") as file:
-            return json.load(file)
-
-
 def delete_list(filename):
         
     file_path = os.path.join(LISTS_DIR, filename)
