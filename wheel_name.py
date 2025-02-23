@@ -1,5 +1,6 @@
 import os
 import json
+from random import randrange
 
 #testing json for the first time
 
@@ -99,7 +100,7 @@ def print_file(filename):
             data = json.load(file) 
         print(data)
     except:
-        print("File not found.")
+        print("\nFile not found.")
 
 
 def edit_list_name(file_to_edit, new_list_name):
@@ -108,13 +109,58 @@ def edit_list_name(file_to_edit, new_list_name):
         new_path_name = os.path.join(LISTS_DIR, new_list_name)
         os.rename(old_file_path, new_path_name)
         print(f"\nThe file name of {file_to_edit} was changed to {new_list_name}!")
+        update_index(new_list_name)
     except:
         print("\n\nAn error happened while trying to edit the file name.\n")
     #good example of what could be an anonym func in Go xd lol
 
 
 def spin_the_wheel(list):
-    pass
+    try:
+        file_path = os.path.join(LISTS_DIR, list)
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        keep_or_remove = int(input("\nInsert (1) to keep the names while spinning or (2) to pop them out.\n\nInsert here: "))
+        if keep_or_remove in [1, 2]:
+            if keep_or_remove == 1:
+                range = len(data)
+                keep_spinning = True
+                while keep_spinning:
+                    random_item = randrange(0, range)
+                    print(f"{data[random_item]}")
+                    continue_stop = str(input("\nContinue to spin (c).\nStop spinning (s).\n\nAnswer here: ")).lower().strip()
+                    if continue_stop in ["c", "s"]:
+                        if continue_stop == "s":
+                            break
+            data_copy = data
+            if keep_or_remove == 2:
+                keep_spinning = True
+                chosen_items = []
+                while keep_spinning:
+
+                    range = len(data_copy)
+                    random_item = randrange(0, range)
+
+                    if len(chosen_items) > 0:
+                        print("\nRemoved items: ")
+                        for i in chosen_items:
+                            print(i)
+                    print(f"\n\nChosen name: {data_copy[random_item]}")
+                    chosen_items.append(data_copy[random_item])
+                    data_copy.pop(random_item)
+
+                    print(f"\nRemaining items ({range - 1}): ")
+                    for i in data_copy:
+                        print(i)
+                    print()
+                    continue_stop = str(input("\n\nContinue to spin (c).\nStop spinning (s).\n\nAnswer here: ")).lower().strip()
+                    if continue_stop in ["c", "s"]:
+                        if continue_stop == "s":
+                            break
+                    if len(data_copy) <= 0:
+                        break
+    except:
+        print("\nAn error popped up while spinning the wheel.\n")
 
 
 def get_names():
@@ -130,7 +176,7 @@ def get_names():
                 else:
                     break
         except:
-            print("Please insert a valid number from 1 - 5.") 
+            print("\nPlease insert a valid number from 1 - 5.") 
 
     while_breaker = True
     while while_breaker:
@@ -180,9 +226,29 @@ def get_names():
             print("\nPlease follow all instructions")
     while_breaker = True
 
-    if new_list == 2: #spin an existing list
-        #spin_the_wheel(list)
-        pass
+    while while_breaker:
+        if new_list == 2: #spin an existing list
+            try:
+                print_saved_files()
+                list_to_spin = input('\nChoose a list from the list above to spin the names or "exit" to leave the spin.\n\nInsert here: ')
+                list_to_spin_path = os.path.join(LISTS_DIR, list_to_spin)
+                if list_to_spin == "exit":
+                    while_breaker = False
+                    get_names()
+                    break
+                else:
+                    if os.path.exists(list_to_spin_path):
+                        spin_the_wheel(list_to_spin)
+                        get_names()
+                        while_breaker = False
+                        break
+                    else:
+                        print("\nThe list inserted does not exist.")
+            except:
+                print("An error showed up while starting up the wheel.")
+        else:
+            while_breaker = False
+    while_breaker = True
 
     if new_list == 3: #see all files
         print_saved_files()
