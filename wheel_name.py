@@ -294,16 +294,17 @@ def get_names():
             print("\nAn error occured while trying to choose a list to delete. Try again.")
     while_breaker = True
 
-    #falta corrigir o .json do input // lembrete
     while while_breaker:
         try:
             if new_list == 5: #read list content
                 print_saved_files()
-                list_t_read = input('\nPlease insert the name of the list you wish to read or "exit" to go out of the deleting mode.\n\nInsert here: ')
-                if list_t_read == "exit":
+                user_input = input('\nPlease insert the name of the list you wish to read or "exit" to go out of the deleting mode.\n\nInsert here: ')
+                if user_input == "exit":
                     while_breaker = False
                     get_names()
                     break
+
+                list_t_read = user_input + ".json" 
                 print_file(list_t_read)
                 get_names()
                 while_breaker = False
@@ -319,13 +320,14 @@ def get_names():
             if new_list == 6:
                 print_saved_files()
                 list_name_input = input('\nPlease insert the name of the list you wish to edit the name or "exit" to go out of the deleting mode.\n\nInsert here: ')
-                list_to_edit = list_name_input + ".json"
+                
 
                 if list_name_input == "exit":
                     while_breaker = False
                     get_names()
                     break
 
+                list_to_edit = list_name_input + ".json"
                 path_test = os.path.join(LISTS_DIR,list_to_edit)
                 if os.path.exists(path_test):
                     new_list_name = input('\nPlease insert the new name of the selected list.\n\nInsert here: ')
