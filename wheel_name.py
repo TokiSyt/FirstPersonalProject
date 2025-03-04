@@ -21,18 +21,17 @@ def save_list(my_list, list_name):
         json.dump(my_list, path_to_file) #dump() is to save the file, requires what needs to be saved and, in this case, the path to the file since its a diff folder, otherwise we can insert just the file name
 
     update_index(filename)
-    name = filename.replace(".json", "")
-    print(f"\nYour list will be saved as {name}.")
+    print(f"\nYour list will be saved as {list_name}.")
 
 
 def update_index(filename):
     '''Saves a new list into the .json file'''
     
-    index = load_index() #loads index.json in the lists folder 
-    index[filename] = os.path.join(LISTS_DIR, filename) #gets path to the new file
+    index = load_index() #loads a copy of index.json in the lists folder as a var 
+    index[filename] = os.path.join(LISTS_DIR, filename) #gets path to the new file on the copy
 
-    with open(INDEX_FILE, "w") as file: #opens the path to the index.json file
-        json.dump(index, file, indent=4) # saves the updated index dictionary to index.json permanently
+    with open(INDEX_FILE, "w") as filepath: #opens the path to the index.json file
+        json.dump(index, filepath, indent=4) # saves the updated index dictionary to index.json permanently
 
 
 def load_index():
@@ -56,8 +55,8 @@ def delete_list(filename):
         index = load_index()
         index.pop(filename, None)
 
-        with open(INDEX_FILE, "w") as file:
-            json.dump(index, file, indent=4)
+        with open(INDEX_FILE, "w") as filepath:
+            json.dump(index, filepath, indent=4)
     else:
         print("List not found!")
 
@@ -75,20 +74,12 @@ def print_saved_files():
 def print_file(filename):
     file_path = os.path.join(LISTS_DIR, filename)
     try:
-        with open(file_path, "r") as file:
-            data = json.load(file) 
-        print(data)
+        if os.path.exists(file_path):
+            with open(file_path, "r") as file:
+                data = json.load(file) 
+            print(data)
     except:
         print("File not found.")
-
-def print_file(filename):
-    file_path = os.path.join(LISTS_DIR, filename)
-    try:
-        with open(file_path, "r") as file:
-            data = json.load(file) 
-        print(data)
-    except:
-        print("\nFile not found.")
 
 
 def edit_list_name(file_to_edit, new_list_name):
@@ -97,7 +88,7 @@ def edit_list_name(file_to_edit, new_list_name):
         new_path_name = os.path.join(LISTS_DIR, new_list_name)
         os.rename(old_file_path, new_path_name)
         print(f"\nThe file name of {file_to_edit} was changed to {new_list_name}!")
-        update_index(new_list_name)
+        update_index(new_list_name) # it adds the file to the index.json
 
         index = load_index()
         index.pop(file_to_edit, None)
@@ -106,16 +97,18 @@ def edit_list_name(file_to_edit, new_list_name):
             json.dump(index, file, indent=4)
     except:
         print("\n\nAn error happened while trying to edit the file name.\n")
-    #or not anymore
 
 
 def spin_the_wheel(list):
     try:
         list_n = list + ".json"
         file_path = os.path.join(LISTS_DIR, list_n)
+
         with open(file_path, "r") as file:
             data = json.load(file)
+
         keep_or_remove = int(input("\nInsert (1) to keep the names while spinning or (2) to pop them out.\n\nInsert here: "))
+
         if keep_or_remove in [1, 2]:
             if keep_or_remove == 1:
                 range = len(data)
@@ -127,8 +120,9 @@ def spin_the_wheel(list):
                     if continue_stop in ["c", "s"]:
                         if continue_stop == "s":
                             break
-            data_copy = data
+
             if keep_or_remove == 2:
+                data_copy = data
                 keep_spinning = True
                 chosen_items = []
                 while keep_spinning:
@@ -158,6 +152,19 @@ def spin_the_wheel(list):
         print("\nAn error popped up while spinning the wheel.\n")
 
 
+def newListName(name_amount, list_name):
+    names_counter = 0
+    names_list = []
+    for _ in range(name_amount):
+        amount_left = name_amount - names_counter
+        print(f"Spots left: {amount_left}")
+        new_name = str(input("Insert the name here: "))
+        names_list.append(new_name.strip())
+        names_counter += 1
+    save_list(names_list, list_name)
+    get_names()
+
+
 def get_names():
 
     while_breaker = True
@@ -185,14 +192,12 @@ def get_names():
         except:
             print("\nInsert a valid number for the amount of names.")
 
-    names_counter = 0
-    names_list = []
     while_breaker = True
     while while_breaker:
         try:
             if new_list in [1]:
                 print_saved_files()
-                list_name = str(input("\nPlease insert here your list name or the name from the list you wish to edit: "))
+                list_name = str(input("\nInsert here your list name or the name from the list you wish to edit: "))
                 overwrite_test = list_name + ".json"
                 list_path = os.path.join(LISTS_DIR, overwrite_test)
                 if os.path.exists(list_path):
@@ -203,26 +208,9 @@ def get_names():
                         break
                     elif overwrite_opt == "yes":
                         print(f"\nThe program will run {name_amount} times. Please, insert a singular name and click Enter. A counter will be displayed to show how many spots are left.")
-                        for _ in range(name_amount):
-                            amount_left = name_amount - names_counter
-                            print(f"Spots left: {amount_left}")
-                            new_name = str(input("Insert the name here: "))
-                            names_list.append(new_name.strip())
-                            names_counter += 1
-                        save_list(names_list, list_name)
-                        get_names()
+                        newListName(name_amount, list_name)
                         while_breaker = False
-                    else:
-                        a = 0 / 2 #error trigger
-                print(f"\nThe program will run {name_amount} times. Please, insert a singular name and click Enter. A counter will be displayed to show how many spots are left.")
-                for _ in range(name_amount):
-                    amount_left = name_amount - names_counter
-                    print(f"Spots left: {amount_left}")
-                    new_name = str(input("Insert the name here: "))
-                    names_list.append(new_name.strip())
-                    names_counter += 1
-                save_list(names_list, list_name)
-                get_names()
+                newListName(name_amount, list_name)
                 while_breaker = False
             else:
                 while_breaker = False
@@ -306,7 +294,6 @@ def get_names():
             if new_list == 6:
                 print_saved_files()
                 list_name_input = input('\nPlease insert the name of the list you wish to edit the name or "exit" to go out of the deleting mode.\n\nInsert here: ')
-                
 
                 if list_name_input == "exit":
                     while_breaker = False
@@ -314,7 +301,7 @@ def get_names():
                     break
 
                 list_to_edit = list_name_input + ".json"
-                path_test = os.path.join(LISTS_DIR,list_to_edit)
+                path_test = os.path.join(LISTS_DIR, list_to_edit)
                 if os.path.exists(path_test):
                     new_list_name = input('\nPlease insert the new name of the selected list.\n\nInsert here: ')
                     new_list_name_c = new_list_name + ".json"
