@@ -63,6 +63,7 @@ def delete_list(filename):
 
 def print_saved_files():
     index = load_index()
+    
     if not index:
         print("No saved lists.")
     else:
@@ -71,8 +72,10 @@ def print_saved_files():
             n = name.replace(".json", "")
             print(f" - {n}")
 
+
 def print_file(filename):
     file_path = os.path.join(LISTS_DIR, filename)
+
     try:
         if os.path.exists(file_path):
             with open(file_path, "r") as file:
@@ -176,7 +179,6 @@ def get_names():
                 break
         except:
             print("\nPlease insert a valid number from 1 - 7.") 
-
 
     if new_list == 1: #new list/overwrite
         while True:
