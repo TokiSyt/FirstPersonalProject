@@ -1,20 +1,20 @@
-from grade_calculator import max_points, round_option, calculate_grades, print_grade
-from wheel_name import get_names
+from wheel.wheel_name import get_names
+from gradeCalculator import grade_calculator as gc
 
 fts_dict = {
     1: "Grade Calculator",
     2: "Name Wheel",
-    3: "N/A",
+    3: "Burguer Shop",
     4: "N/A",
     5: "Leave the program"
 }
 
 
 def grade_calculator():
-    max_p = max_points()
-    round_opt = round_option()
-    grades = calculate_grades(max_p, round_opt)
-    print_grade(max_p, grades)
+    max_p = gc.max_points()
+    round_opt = gc.round_option()
+    grades = gc.calculate_grades(max_p, round_opt)
+    gc.print_grade(max_p, grades)
 
 
 def get_choice():

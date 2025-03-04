@@ -6,7 +6,7 @@ from random import randrange
 
 #os.path.join gets the path
 
-LISTS_DIR = "lists"
+LISTS_DIR = "wheel/lists"
 INDEX_FILE = os.path.join(LISTS_DIR, "#index.json")
 
 

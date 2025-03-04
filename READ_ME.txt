@@ -13,4 +13,5 @@ Systems:
 : Calculates the exact value, integral or decimal, for each grade (0 - 5) in the Czech Schoolar System. 
 Very useful since here tests have different maximum amount of points and each school has different % for each grade, although they do follow a certain range defined by law.
 
-- WIP
+- Burguer Shop.
+: 

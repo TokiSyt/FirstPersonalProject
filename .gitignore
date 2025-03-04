@@ -1,2 +1,6 @@
-/lists
 /__pycache__
+wheel/__pycache__
+gradeCalculator/__pycache__
+burguerShop/__pycache__
+
+wheel/lists
