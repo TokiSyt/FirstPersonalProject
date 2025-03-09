@@ -4,7 +4,7 @@ from gradeCalculator import grade_calculator as gc
 fts_dict = {
     1: "Grade Calculator",
     2: "Name Wheel",
-    3: "Burguer Shop",
+    3: "Burger Shop (GUI app)",
     4: "N/A",
     5: "Leave the program"
 }
