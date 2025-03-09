@@ -1,6 +1,6 @@
 This is my first personal project from zero. 
 
-It is a small demo for my capstone project, which will be an App made with 3 different languages (this one will only use 1).
+It is a small demo for my capstone project, which will be an App made with different languages (this one will only use 1).
 The main goal for both projects is to help my partner with her profissional life. Meaning, all the tasks she has to do either manually or semi-automatically will be held here. I don't plan at all to use this demo as a resume project nor portfolio, being the reason I'm being so honest about it here.
 
 Most of the systems below will be heavly upgraded both on performance \ features and visuals, as it's not my big goal right now and the number of different systems will also increase greatly, as some of them need will visual tools to work.
