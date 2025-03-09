@@ -8,6 +8,7 @@ Most of the systems below will be heavly upgraded both on performance \ features
 Systems:
 - Wheel.
 : Let's you choose a stored list (or create one) of names that you can edit/delete/read and will output 1 name per spin. There will be the option to have it pop the output from the list or not.
+PS: You will need a folder names "lists" and inside a folder named "#index.json" to use the program correctly.
 
 - Grade calculator. 
 : Calculates the exact value, integral or decimal, for each grade (0 - 5) in the Czech Schoolar System. 
